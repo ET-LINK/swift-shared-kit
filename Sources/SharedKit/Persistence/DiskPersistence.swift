@@ -11,7 +11,7 @@ public class DiskPersistence: Persistence {
     }
     
     public func load<T: Codable>(objects filename: String) async throws -> [T] {
-        guard let url = documents?.appending(path: filename, directoryHint: .notDirectory) else {
+        guard let url = documents?.appendingPathComponent(filename, isDirectory: false) else {
             return []
         }
         guard FileManager.default.fileExists(atPath: url.path) else {
@@ -25,7 +25,7 @@ public class DiskPersistence: Persistence {
     }
     
     public func load<T: Codable>(object filename: String) async throws -> T? {
-        guard let url = documents?.appending(path: filename, directoryHint: .notDirectory) else {
+        guard let url = documents?.appendingPathComponent(filename, isDirectory: false) else {
             return nil
         }
         guard FileManager.default.fileExists(atPath: url.path) else {
@@ -39,7 +39,7 @@ public class DiskPersistence: Persistence {
     }
 
     public func save<T: Codable>(filename: String, objects: [T]) async throws {
-        guard let url = documents?.appending(path: filename, directoryHint: .notDirectory) else {
+        guard let url = documents?.appendingPathComponent(filename, isDirectory: false) else {
             return
         }
         let task = Task {
@@ -50,7 +50,7 @@ public class DiskPersistence: Persistence {
     }
     
     public func save<T: Codable>(filename: String, object: T) async throws {
-        guard let url = documents?.appending(path: filename, directoryHint: .notDirectory) else {
+        guard let url = documents?.appendingPathComponent(filename, isDirectory: false) else {
             return
         }
         let task = Task {
@@ -61,7 +61,7 @@ public class DiskPersistence: Persistence {
     }
     
     public func delete(filename: String) throws {
-        guard let url = documents?.appending(path: filename, directoryHint: .notDirectory) else {
+        guard let url = documents?.appendingPathComponent(filename, isDirectory: false) else {
             return
         }
         try FileManager.default.removeItem(at: url)
